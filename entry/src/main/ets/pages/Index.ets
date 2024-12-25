@@ -1,85 +1,86 @@
-//数组的基本操作
-//1. 定义数组
 @Entry
 @Component
 struct Index {
-  build() {
-    let names: string[] = ['小明', '小红', '小刚'];
-    console.log('整个数组', names);
+  @State arrayResults: string[] = []
+
+  aboutToAppear() {
+    // 在组件创建时执行所有数组操作示例
+    this.defineArrayExample()
+    this.arrayAccessExample()
+    this.arrayModifyExample()
+    this.arrayAddExample()
+    this.arrayDeleteExample()
+    this.arraySpliceExample()
   }
-}
 
-///////////////////////////////////////////////////////////////
-//2. 数组取值
-@Entry
-@Component
-struct Index {
   build() {
-    let names: string[] = ['小明', '小红', '小刚'];
-    console.log('数组取值', names[1]); // 输出小红
-    console.log('数组长度', names.length); // 输出数组的长度
+    Column() {
+      // 1. 定义数组示例
+      Text('数组操作示例').fontSize(24).margin(10).fontWeight(FontWeight.Bold)
+      
+      List() {
+        ForEach(this.arrayResults, (result: string) => {
+          ListItem() {
+            Text(result)
+              .fontSize(16)
+              .margin(5)
+              .padding(10)
+              .backgroundColor('#f5f5f5')
+              .width('100%')
+          }
+        })
+      }
+      .width('100%')
+      .padding(10)
+    }
   }
-}
-//3. 数组修改
-@Entry
-@Component
-struct Index {
-  build() {
-    let names: string[] = ['小明', '小红', '小刚'];
-    names[2] = '小李';
-    console.log('修改数组', names); // 输出修改后的数组
+
+  private defineArrayExample() {
+    let names: string[] = ['小明', '小红', '小刚']
+    this.arrayResults.push(`1. 定义数组: ${JSON.stringify(names)}`)
   }
-}
 
-
-////////////////////////////////////////////
-//数组的添加和删除
-//添加元素
-@Entry
-@Component
-struct Index {
-  build() {
-    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路'];
-    songs.unshift('夜空中最亮的星'); // 在开头新增
-    console.log('返回数组长度', songs.length); // 输出操作后的数组长度
-    console.log('数组songs', songs);
-
-    songs.push('岁月如歌', '匆匆那年'); // 在结尾新增
-    console.log('数组', songs);
+  private arrayAccessExample() {
+    let names: string[] = ['小明', '小红', '小刚']
+    this.arrayResults.push(`2. 数组取值: ${names[1]}`)
+    this.arrayResults.push(`   数组长度: ${names.length}`)
   }
-}
 
-
-///////////////////////////////////////////////////////////
-//删除元素
-@Entry
-@Component
-struct Index {
-  build() {
-    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路'];
-    console.log('返回删除的项', songs.shift()); // 删除并输出第一个元素
-    console.log('数组', songs);
-
-    songs.pop(); // 删除最后一个元素
-    console.log('数组', songs);
+  private arrayModifyExample() {
+    let names: string[] = ['小明', '小红', '小刚']
+    names[2] = '小李'
+    this.arrayResults.push(`3. 修改数组: ${JSON.stringify(names)}`)
   }
-}
 
-///////////////////////////////////////////
-//使用 splice 方法
-@Entry
-@Component
-struct Index {
-  build() {
-    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路', '突然好想你', '小幸运'];
-    songs.splice(2, 2); // 删除从索引2开始的两个元素
-    console.log('数组songs', songs);
+  private arrayAddExample() {
+    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路']
+    songs.unshift('夜空中最亮的星')
+    this.arrayResults.push(`4. 数组添加-unshift后: ${JSON.stringify(songs)}`)
 
-    songs.splice(1, 0, '演员'); // 在索引1的位置新增元素
-    console.log('数组songs', songs);
+    songs.push('岁月如歌', '匆匆那年')
+    this.arrayResults.push(`   数组添加-push后: ${JSON.stringify(songs)}`)
+  }
 
-    songs.splice(1, 1, '遥不可及'); // 删除索引1的元素，并替换为'遥不可及'
-    console.log('数组songs', songs);
+  private arrayDeleteExample() {
+    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路']
+    let removed = songs.shift()
+    this.arrayResults.push(`5. 删除第一个元素: ${removed}`)
+    this.arrayResults.push(`   shift后的数组: ${JSON.stringify(songs)}`)
+
+    songs.pop()
+    this.arrayResults.push(`   pop后的数组: ${JSON.stringify(songs)}`)
+  }
+
+  private arraySpliceExample() {
+    let songs: string[] = ['遥远的她', '岁月神偷', '平凡之路', '突然好想你', '小幸运']
+    songs.splice(2, 2)
+    this.arrayResults.push(`6. splice删除后: ${JSON.stringify(songs)}`)
+
+    songs.splice(1, 0, '演员')
+    this.arrayResults.push(`   splice插入后: ${JSON.stringify(songs)}`)
+
+    songs.splice(1, 1, '遥不可及')
+    this.arrayResults.push(`   splice替换后: ${JSON.stringify(songs)}`)
   }
 }
 
